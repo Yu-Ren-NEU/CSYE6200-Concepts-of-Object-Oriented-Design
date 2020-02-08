@@ -1,0 +1,27 @@
+package edu.neu.csye6200;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class Order {
+	public static List<Arrangement> ifhasthismovieinthistheater(Movie movie, Theater theater) {
+		Calendar cal=Calendar.getInstance();      
+		int y=cal.get(Calendar.YEAR);      
+		int m=cal.get(Calendar.MONTH);      
+		int d=cal.get(Calendar.DATE);
+		myDate currenttime = new myDate(y, m, d);
+		List<Arrangement> result = new ArrayList<>();
+		for(Hall hall : theater.getHalls()) {
+			for(Arrangement arrangement : Operation.operation.getArrangements()) {
+				if(hall.getHallId() == arrangement.getHallid() && movie.getMovieId() == arrangement.getMovieid()) {
+					if(Operation.currenttime.compareTo(arrangement.getStarttime()) > 0 && Operation.currenttime.compareTo(arrangement.getEndtime()) < 0) {
+						result.add(arrangement);
+						System.out.println(arrangement);
+					}
+				}
+			}
+		}
+		return result;
+	}
+}

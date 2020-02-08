@@ -1,0 +1,150 @@
+package edu.neu.csye6200;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Operation {
+	// store user's information
+	public static String userinfo = null;
+
+	public static Operation operation = new Operation();
+
+	private DatabaseFactory databasefactory = null;
+	private Database database = null;
+	private UserFactory userfactory = null;
+	private User user = null;
+	private List<Theater> theaters = null;
+	private List<Movie> movies = null;
+	private List<Arrangement> arrangements = null;
+
+	public Operation() {
+		super();
+		// TODO Auto-generated constructor stub
+		databasefactory = DatabaseFactory.databasefactory;
+		theaters = new ArrayList<>();
+		movies = new ArrayList<>();
+		arrangements = new ArrayList<>();
+	}
+
+	public UserFactory getUserFactory() {
+		return userfactory;
+	}
+
+	public void setUserFactory(UserFactory userfactory) {
+		this.userfactory = userfactory;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public DatabaseFactory getDatabaseFactory() {
+		return databasefactory;
+	}
+
+	public void setDatabaseFactory(DatabaseFactory databasefactory) {
+		this.databasefactory = databasefactory;
+	}
+
+	public Database getDatabase() {
+		return database;
+	}
+
+	public void setDatabase(Database database) {
+		this.database = database;
+	}
+
+	public void addtheater(Theater theater) {
+		this.theaters.add(theater);
+	}
+
+	public List<Theater> getTheaters() {
+		return theaters;
+	}
+
+	public void addmovie(Movie movie) {
+		this.movies.add(movie);
+	}
+
+	public List<Movie> getMovies() {
+		return movies;
+	}
+
+	public void addarrangement(Arrangement arrangement) {
+		this.arrangements.add(arrangement);
+	}
+
+	public List<Arrangement> getArrangements() {
+		return arrangements;
+	}
+
+	public static void login() {
+		
+		Operation.operation.setDatabaseFactory(DatabaseFactory.databasefactory);
+		Operation.operation.setDatabase(Operation.operation.getDatabaseFactory().getobject()); // set a database object
+																								// to operate in the
+																								// database
+		Operation.operation.setUserFactory(new UserFactory()); // because there is just one user, we use the singleton
+																// factory;
+
+		UI.LoginUI();
+	}
+
+	public static void choice() {
+		UI.ChoiceUI();
+
+		Operation.operation.setUser(Operation.operation.getUserFactory().getObject(Operation.userinfo));
+
+		System.out.println("\nThe information of the user:");
+		System.out.println(Operation.operation.getUser());
+
+		// load theaters and load the relative hall to every theater
+		List<String> theatersinfo = Operation.operation.getDatabase().Select_All_Theaters();
+		for (int i = 0; i < theatersinfo.size(); i++) {
+			Operation.operation.getTheaters().add(new Theater(theatersinfo.get(i)));
+			List<String> hallsinfo = Operation.operation.getDatabase()
+					.Select_Halls_bytheaterid(Operation.operation.getTheaters().get(i).getTheaterId());
+			for (String hallinfo : hallsinfo) {
+				Operation.operation.getTheaters().get(i).addHall(new Hall(hallinfo));
+			}
+		}
+		System.out.println("\nThe information of our theaters:");
+		for (Theater theater : Operation.operation.getTheaters()) {
+			System.out.println(theater);
+			theater.showHalls();
+		}
+
+		// load movies
+		List<String> moviesinfo = Operation.operation.getDatabase().Select_All_Movies();
+		for (String movieinfo : moviesinfo) {
+			Operation.operation.getMovies().add(new Movie(movieinfo));
+		}
+		System.out.println("\nThe information of our movies:");
+		for (Movie movie : Operation.operation.getMovies()) {
+			System.out.println(movie);
+		}
+
+		// load arrangements
+		List<String> arrangementsinfo = Operation.operation.getDatabase().Select_All_Arrangements();
+		for (String arrangementinfo : arrangementsinfo) {
+			Operation.operation.getArrangements().add(new Arrangement(arrangementinfo));
+		}
+		System.out.println("\nThe information of our arrangements:");
+		for (Arrangement arrangement : Operation.operation.getArrangements()) {
+			System.out.println(arrangement);
+		}
+
+	}
+
+	public static void demo() {
+
+		// generate login surface
+		Operation.login();
+
+	}
+
+}

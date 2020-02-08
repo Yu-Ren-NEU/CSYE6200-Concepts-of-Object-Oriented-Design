@@ -1,0 +1,37 @@
+package edu.neu.csye6200;
+
+import java.util.Comparator;
+
+public class GlobalGNPModel extends AbstractGlobalGNPModel {
+
+	@Override
+	public void add(AbstractRegion r) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void sort(Comparator<AbstractRegion> c) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void updateGNP(int offset, int factor) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void showGNP() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void graphGNP() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,25 @@
+package edu.neu.csye6200;
+
+public class Driver {
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+//		User user = new User("Yu", "0918");
+//		System.out.println(user);
+//		Movie movie = new Movie("Fast & Furious", "Action", "Paul Walker, Van Decire", "A competition with cars", null);
+//		System.out.println(movie);
+//		Theater theater = new Theater(0, "Wan Dan", "Xiamen, China", "The best comfortable situation");
+//		System.out.println(theater);
+//		Test.demo();
+		Operation.demo();
+//		List<String> result = DatabaseFactory.databasefactory.getobject().Select_All_Arrangements();
+//		for(String a : result) {
+//			System.out.println(a);
+//			Arrangement arrangement = new Arrangement(a);
+//			System.out.println(arrangement);
+//			myDate adate = new myDate(2019, 11, 23);
+//			System.out.println(adate.compareTo(arrangement.getStarttime()));
+//		}
+	}
+
+}

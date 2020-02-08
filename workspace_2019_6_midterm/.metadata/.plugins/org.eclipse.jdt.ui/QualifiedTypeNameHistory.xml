@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="edu.neu.csye6200.Cart"/>
+<fullyQualifiedTypeName name="edu.neu.csye6200.Item"/>
+<fullyQualifiedTypeName name="edu.neu.csye6200.AbstractItem"/>
+<fullyQualifiedTypeName name="edu.neu.csye6200.Shopper"/>
+<fullyQualifiedTypeName name="edu.neu.csye6200.AbstractCartFactory"/>
+<fullyQualifiedTypeName name="edu.neu.csye6200.CartFactory"/>
+<fullyQualifiedTypeName name="edu.neu.csye6200.HiTechItem"/>
+<fullyQualifiedTypeName name="edu.neu.csye6200.HiTechItemFactory"/>
+<fullyQualifiedTypeName name="edu.neu.csye6200.MobileShopperCart"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+</qualifiedTypeNameHistroy>

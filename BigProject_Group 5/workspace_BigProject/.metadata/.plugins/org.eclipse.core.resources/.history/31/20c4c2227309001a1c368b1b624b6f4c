@@ -1,0 +1,20 @@
+package edu.neu.csye6200;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Order {
+	public static List<Arrangement> ifhasthismovieinthistheater(Movie movie, Theater theater) {
+		List<Arrangement> result = new ArrayList<>();
+		for(Hall hall : theater.getHalls()) {
+			for(Arrangement arrangement : Operation.operation.getArrangements()) {
+				if(hall.getHallId() == arrangement.getHallid() && movie.getMovieId() == arrangement.getMovieid()) {
+					if(Operation.currenttime.compareTo(arrangement.getStarttime()) > 0 && Operation.currenttime.compareTo(arrangement.getEndtime()) < 0) {
+						result.add(arrangement);
+					}
+				}
+			}
+		}
+		return result;
+	}
+}

@@ -1,0 +1,220 @@
+package edu.neu.csye6200;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+//import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class Database {
+	private Connection connection;
+
+	// initialize the database
+	public Database() {
+		super();
+		// TODO Auto-generated constructor stub
+		try {
+			// The newInstance() call is a work around for some
+			// broken Java implementations
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("加载成功");
+		} catch (Exception ex) {
+			System.out.println("加载失败");
+			// handle the error
+		}
+
+		try {
+			this.connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/Workspace_Cinema?serverTimezone=UTC", "root", "shayatou123");
+			// 此处test为mysql提前建立的数据库，root为用户名，最后为密码
+			System.out.println("连接成功");
+		} catch (SQLException ex) {
+			// handle any errors
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+			System.out.println("连接失败");
+		}
+	}
+
+	// Select User's information from user table
+	public int NumberofUser() {
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			rs = this.connection.prepareStatement("select * from user").executeQuery();
+			while (rs.next()) {
+				result++;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// Select User's information from user table
+	public String Select_UserInfo(String userName) {
+		ResultSet rs = null;
+		String result = null;
+		try {
+			rs = this.connection.prepareStatement("select * from user where username = '" + userName + "';")
+					.executeQuery();
+			while (rs.next()) {
+				String firstname = rs.getString("firstname");
+				String lastname = rs.getString("lastname");
+				int age = rs.getInt("age");
+				String gender = rs.getString("gender");
+				int userid = rs.getInt("userid");
+				String username = rs.getString("username");
+				String password = rs.getString("password");
+				String description = rs.getString("description");
+				result = firstname + "/" + lastname + "/" + age + "/" + gender + "/" + userid + "/" + username + "/"
+						+ password + "/" + description;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// Insert new user's infomation
+	public boolean InsertUserinfo(String userName, String passWord) {
+		int userId = DatabaseFactory.databasefactory.getobject().NumberofUser() + 1;
+		Boolean result = false;
+		try {
+			int i = this.connection.prepareStatement("insert into user(userid, username, password) value(" + userId
+					+ ", '" + userName + "', '" + passWord + "')").executeUpdate();
+			if (i == 1)
+				result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// Select Theaters' information from Theater table
+	public List<String> Select_All_Theaters() {
+		ResultSet rs = null;
+		List<String> result = new ArrayList<>();
+		try {
+			rs = this.connection.prepareStatement("select * from Theater;").executeQuery();
+			while (rs.next()) {
+				int theaterid = rs.getInt("theaterid");
+				String theatername = rs.getString("theatername");
+				String theaterlocation = rs.getString("theaterlocation");
+				String theaterdescription = rs.getString("theaterdescription");
+				String cmp = theaterid + "/" + theatername + "/" + theaterlocation + "/" + theaterdescription;
+				result.add(cmp);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// Select Halls' information from Hall table according to the ID of theater
+	public List<String> Select_Halls_bytheaterid(int theaterId) {
+		ResultSet rs = null;
+		List<String> result = new ArrayList<>();
+		try {
+			rs = this.connection.prepareStatement("select * from Hall where theaterid = '" + theaterId + "';")
+					.executeQuery();
+			while (rs.next()) {
+				int hallid = rs.getInt("hallid");
+				int theaterid = rs.getInt("theaterid");
+				int capacity = rs.getInt("capacity");
+				String cmp = hallid + "/" + theaterid + "/" + capacity;
+				result.add(cmp);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// Select movies' information from Movie table
+	public List<String> Select_All_Movies() {
+		ResultSet rs = null;
+		List<String> result = new ArrayList<>();
+		try {
+			rs = this.connection.prepareStatement("select * from Movie;").executeQuery();
+			while (rs.next()) {
+				int movieid = rs.getInt("movieid");
+				String moviename = rs.getString("moviename");
+				String movieclass = rs.getString("movieclass");
+				String movieactors = rs.getString("movieactors");
+				String moviedescription = rs.getString("moviedescription");
+				int moviepictureid = rs.getInt("moviepictureid");
+				String cmp = movieid + "/" + moviename + "/" + movieclass + "/" + movieactors + "/" + moviedescription
+						+ "/" + moviepictureid;
+				result.add(cmp);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public List<String> Select_All_Arrangements() {
+		ResultSet rs = null;
+		List<String> result = new ArrayList<>();
+		try {
+			rs = this.connection.prepareStatement("select * from arrangement;").executeQuery();
+			while (rs.next()) {
+				int arrangementid = rs.getInt("arrangementid");
+				int hallid = rs.getInt("hallid");
+				int movieid = rs.getInt("movieid");
+				String starttime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rs.getTimestamp("starttime"));
+				String endtime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rs.getTimestamp("endtime"));
+				String cmp = arrangementid + "/" + hallid + "/" + movieid + "/" + starttime + "/" + endtime;
+				result.add(cmp);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public int NumberofRecord() {
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			rs = this.connection.prepareStatement("select * from ticket_record").executeQuery();
+			while (rs.next()) {
+				result++;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	// Insert record of ordering ticket
+	public boolean InsertOrderRecord(int userid, int arrangementid, int ticketnum) {
+		int recordid = DatabaseFactory.databasefactory.getobject().NumberofRecord() + 1;
+		Boolean result = false;
+		try {
+			int i = this.connection.prepareStatement("insert into ticket_record(recordid, userid, arrangementid, ticketnum) value(" + recordid
+					+ ", '" + userid + "', '" + arrangementid + "', '" + ticketnum + "')").executeUpdate();
+			if (i == 1)
+				result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+}

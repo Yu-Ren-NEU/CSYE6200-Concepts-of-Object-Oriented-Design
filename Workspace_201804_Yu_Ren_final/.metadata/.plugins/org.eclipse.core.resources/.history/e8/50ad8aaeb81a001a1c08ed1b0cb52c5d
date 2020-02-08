@@ -1,0 +1,11 @@
+package edu.neu.csye6200;
+
+public class GraphValue extends AbstractGraphValue {
+
+	@Override
+	public String MagnitudeString(double doubleValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
